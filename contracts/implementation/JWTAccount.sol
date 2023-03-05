@@ -133,11 +133,9 @@ contract JWTAccount is BaseAccount, UUPSUpgradeable, Initializable {
             bytes memory signature
         ) = abi.decode(userOp.signature, (string, string, bytes));
 
-        string memory headerBase64 = headerJson.encode();
-        string memory payloadBase64 = payloadJson.encode();
         StringUtils.slice[] memory slices = new StringUtils.slice[](2);
-        slices[0] = headerBase64.toSlice();
-        slices[1] = payloadBase64.toSlice();
+        slices[0] = headerJson.encode().toSlice();
+        slices[1] = payloadJson.encode().toSlice();
         string memory message = ".".toSlice().join(slices);
         string memory kid = parseHeader(headerJson);
         bytes memory exponent = getRsaExponent(kid);
